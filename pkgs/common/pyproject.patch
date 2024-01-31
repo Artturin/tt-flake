@@ -1,0 +1,13 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 8be9d63..0dd0736 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -29,7 +29,7 @@ dependencies = [
+   'psutil==5.9.6',
+   'pyyaml==6.0.1',
+   'rich==13.7.0',
+-  'textual==0.42.0',
++  'textual>=0.42.0',
+   'requests==2.31.0',
+ ]
+ 

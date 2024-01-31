@@ -1,0 +1,18 @@
+diff --git a/crates/luwen-if/src/chip/grayskull.rs b/crates/luwen-if/src/chip/grayskull.rs
+index 83f9f7a..2f4dc4a 100644
+--- a/crates/luwen-if/src/chip/grayskull.rs
++++ b/crates/luwen-if/src/chip/grayskull.rs
+@@ -462,13 +462,6 @@ impl ChipImpl for Grayskull {
+             }
+         };
+ 
+-        if version <= 0x01030000 {
+-            return Err(crate::error::PlatformError::UnsupportedFwVersion {
+-                version,
+-                required: 0x01040000,
+-            });
+-        }
+-
+         let result = self.arc_msg(ArcMsgOptions {
+             msg: ArcMsg::GetSmbusTelemetryAddr,
+             ..Default::default()

@@ -1,0 +1,24 @@
+diff --git a/device/tt_cluster_descriptor.h b/device/tt_cluster_descriptor.h
+index c5c066e..84f17ce 100644
+--- a/device/tt_cluster_descriptor.h
++++ b/device/tt_cluster_descriptor.h
+@@ -11,6 +11,7 @@
+ 
+ #include <unordered_map>
+ #include <unordered_set>
++#include <cstdint>
+ #include <set>
+ #include <map>
+ #include <tuple>
+diff --git a/device/tt_soc_descriptor.cpp b/device/tt_soc_descriptor.cpp
+index adf77c2..3813eab 100644
+--- a/device/tt_soc_descriptor.cpp
++++ b/device/tt_soc_descriptor.cpp
+@@ -5,6 +5,7 @@
+ #include "tt_soc_descriptor.h"
+ 
+ #include <assert.h>
++#include <cstdint>
+ #include <fstream>
+ #include <iostream>
+ #include <regex>

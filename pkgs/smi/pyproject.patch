@@ -1,0 +1,22 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index a6e73a4..5085274 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -29,14 +29,14 @@ dependencies = [
+   'elasticsearch==8.11.0',
+   'jsons==1.6.3',
+   'linkify-it-py==2.0.2',
+-  'pydantic==1.*',
++  'pydantic>=1.0.0',
+   'psutil==5.9.6',
+   'pyyaml==6.0.1',
+   'tt_tools_common @ git+https://github.com/tenstorrent/tt-tools-common.git',
+   'pyluwen @ git+https://github.com/tenstorrent/luwen.git@v0.1.0#subdirectory=crates/pyluwen',
+   'rich==13.7.0',
+-  'textual==0.42.0',
+-  'pre-commit==3.5.0',
++  'textual>=0.42.0',
++  'pre-commit>=3.5.0',
+   'importlib_resources==6.1.1',
+   'requests==2.31.0',
+ ]
