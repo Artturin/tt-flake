@@ -20,36 +20,43 @@
       system:
       let
         pkgs = inputs.nixpkgs.legacyPackages.${system};
-        kernel = pkgs.linux_latest;
-        kmd = import ./pkgs/kmd { inherit pkgs kernel; };
-        sfpi = import ./pkgs/sfpi { inherit pkgs; };
-        luwen = import ./pkgs/luwen { inherit pkgs; };
-        common = import ./pkgs/common { inherit pkgs; };
-        flash = import ./pkgs/flash {
-          inherit pkgs;
-          pyluwen = luwen.pyluwen_0_1;
-          tools-common = common;
-        };
-        smi = import ./pkgs/smi {
-          inherit pkgs;
-          pyluwen = luwen.pyluwen;
-          tools-common = common;
-        };
-        umd = import ./pkgs/umd { inherit pkgs; };
+        scope = lib.makeScope pkgs.newScope (
+          self:
+          let
+            inherit (self) callPackage;
+          in
+          {
+            kernel = pkgs.linux_latest;
+            kmd = callPackage ./pkgs/kmd { };
+            sfpi = callPackage ./pkgs/sfpi { };
+            luwen = callPackage ./pkgs/luwen { };
+            common = callPackage ./pkgs/common { };
+            flash = callPackage ./pkgs/flash {
+              pyluwen = self.luwen.pyluwen_0_1;
+              tools-common = self.common;
+            };
+            smi = callPackage ./pkgs/smi {
+              pyluwen = self.luwen.pyluwen;
+              tools-common = self.common;
+            };
+            umd = callPackage ./pkgs/umd { };
+
+          }
+        );
       in
       {
         packages = {
-          kmd = kmd.kmd;
-          udev-rules = kmd.udev-rules;
-          kmd-test = kmd.test;
-          sfpi = sfpi.sfpi;
-          tt-gcc = sfpi.tt-gcc;
-          smi = smi;
-          luwen = luwen.luwen;
-          pyluwen = luwen.pyluwen;
-          tools-common = common;
-          flash = flash;
-          umd = umd;
+          kmd = scope.kmd.kmd;
+          udev-rules = scope.kmd.udev-rules;
+          kmd-test = scope.kmd.test;
+          sfpi = scope.sfpi.sfpi;
+          tt-gcc = scope.sfpi.tt-gcc;
+          smi = scope.smi;
+          luwen = scope.luwen.luwen;
+          pyluwen = scope.luwen.pyluwen;
+          tools-common = scope.common;
+          flash = scope.flash;
+          umd = scope.umd;
           default = self.packages.${system}.smi;
         };
 
