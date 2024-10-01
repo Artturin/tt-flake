@@ -30,14 +30,12 @@
             kmd = callPackage ./pkgs/kmd { };
             sfpi = callPackage ./pkgs/sfpi { };
             luwen = callPackage ./pkgs/luwen { };
-            common = callPackage ./pkgs/common { };
+            tools-common = callPackage ./pkgs/tools-common { };
             flash = callPackage ./pkgs/flash {
               pyluwen = self.luwen.pyluwen_0_1;
-              tools-common = self.common;
             };
             smi = callPackage ./pkgs/smi {
               pyluwen = self.luwen.pyluwen;
-              tools-common = self.common;
             };
             umd = callPackage ./pkgs/umd { };
 
@@ -54,7 +52,7 @@
           smi = scope.smi;
           luwen = scope.luwen.luwen;
           pyluwen = scope.luwen.pyluwen;
-          tools-common = scope.common;
+          tools-common = scope.tools-common;
           flash = scope.flash;
           umd = scope.umd;
           default = self.packages.${system}.smi;
