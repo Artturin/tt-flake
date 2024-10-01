@@ -4,10 +4,10 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "tenstorrent";
     repo = "tt-kmd";
-    rev = "455b948";
-    hash = "sha256-oJzAPd85Cyd1hcuFPJNyHA/YXX89fTUK5o4a+M4Nu00=";
+    rev = "715a5d76e5dbb6d8972d4aa92e8cbe3434986b9f";
+    hash = "sha256-OCnGhvIDIqkQJXlIpOVnP0O9cA9J7/bz1JPAOpeDNYQ=";
   };
-  version = "main-01-31-24";
+  version = "unstable-2024-09-06";
 in
 {
   kmd = pkgs.stdenv.mkDerivation {
