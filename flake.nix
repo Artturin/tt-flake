@@ -31,6 +31,8 @@
       umd = umd;
     };
 
+    formatter.${system} = pkgs.nixfmt-rfc-style;
+
     defaultPackage.${system} = self.packages.${system}.smi;
   };
 }
