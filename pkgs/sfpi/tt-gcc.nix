@@ -2,16 +2,15 @@
 
 pkgs.stdenv.mkDerivation rec {
   pname = "tt-gcc";
-  version = "master-01-30-24";
+  version = "unstable-2024-08-27";
 
   src = pkgs.fetchFromGitHub {
     owner = "tenstorrent-metal";
     repo = "sfpi-tt-gcc";
-    rev = "94a51a7";
+    rev = "c0ed5d7f6f9d7aa24d848a0dc792cc32ca1c9215";
     # this takes a while and we don't need all of them
     fetchSubmodules = true;
-    leaveDotGit = false;
-    hash = "sha256-+bD4GzQ1bSTDOm4Vqxr70uF6yWuIU1ZgZvuRLQO4Or0=";
+    hash = "sha256-mtq/n1g7hfyjLxVK/VYlYRUrdpbp/gJYrFbqwakWkTI=";
   };
 
   nativeBuildInputs = with pkgs; [
