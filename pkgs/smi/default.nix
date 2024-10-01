@@ -8,21 +8,25 @@ with pkgs.python3Packages;
 
 buildPythonPackage rec {
   pname = "tt-smi";
-  version = "main-01-31-24";
+  version = "unstable-2024-09-27";
 
   src = pkgs.fetchFromGitHub {
     owner = "tenstorrent";
     repo = "tt-smi";
-    rev = "2071978";
-    hash = "sha256-sqwGWeeMBxOyHiVI2GcQ5CyZ8Zaty7FjhkS0C7H7QkM=";
+    rev = "052f1ce49b94581710744a91939121e01c24b5f2";
+    hash = "sha256-IA60unZpSWVnMnDjDIC31QtURi9nIr/F7s7PGZilPcw=";
   };
 
   format = "pyproject";
 
   patches = [
-    ./pyproject.patch
-    ./log.patch
+    # TODO: Still needed? Builds without.
+    #./log.patch
   ];
+
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
+
+  pythonRelaxDeps = [ "black" "distro" "elasticsearch" "rich" "textual" "pre-commit" "importlib-resources" ];
 
   propagatedBuildInputs = [
     setuptools
