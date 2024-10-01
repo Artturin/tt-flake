@@ -49,6 +49,20 @@
           default = self.packages.${system}.smi;
         };
 
+        checks = {
+          simple =
+            pkgs.runCommand "test"
+              {
+                # Goes up to 7
+                NIX_DEBUG = 0;
+              }
+              ''
+                mkdir -p $out
+                ${self.packages.${system}.tt-gcc}/bin/riscv32-unknown-elf-gcc ${./tests/test.c} -o $out/test
+                ${self.packages.${system}.tt-gcc}/bin/riscv32-unknown-elf-gcc -mblackhole ${./tests/test.c} -o $out/test-wormhole
+              '';
+        };
+
         formatter = pkgs.nixfmt-rfc-style;
       }
     );
