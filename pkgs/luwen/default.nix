@@ -13,10 +13,10 @@
     };
 
     postPatch = ''
-      ln -s ${./Cargo.lock} Cargo.lock
+      ln -s ${./Cargo_0_2.lock} Cargo.lock
     '';
 
-    cargoLock.lockFile = ./Cargo.lock;
+    cargoLock.lockFile = ./Cargo_0_2.lock;
     cargoHash = "";
   };
 
