@@ -24,6 +24,7 @@
         flash = import ./pkgs/flash {
           inherit pkgs;
           pyluwen = luwen.pyluwen_0_1;
+          tools-common = common;
         };
         smi = import ./pkgs/smi {
           inherit pkgs;
