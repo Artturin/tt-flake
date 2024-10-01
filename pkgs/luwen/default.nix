@@ -22,13 +22,13 @@
 
   pyluwen = pkgs.python3.pkgs.buildPythonPackage rec {
     pname = "pyluwen";
-    version = "main-2024-01-31";
+    version = "unstable-2024-09-13";
 
     src = pkgs.fetchFromGitHub {
       owner = "tenstorrent";
       repo = "luwen";
-      rev = "4753a930adb217b296e32f8c682344d929b561bd";
-      sha256 = "sha256-UiTVZZt0ZFwZ6wCTpk+8ZLYjtdSiMFklXoh6bDFZXKQ=";
+      rev = "e4e10e95928f4b73d31ac4f41ea08cd6e3ef5573";
+      sha256 = "sha256-cScaqWAyjDuvy9M2EccMfUHfDq23IWniaKeq+upHzOg=";
     };
 
     postPatch = ''
@@ -39,10 +39,8 @@
 
     format = "pyproject";
 
-    cargoDeps = pkgs.rustPlatform.fetchCargoTarball {
-      inherit src;
-      name = "${pname}-${version}";
-      hash = "sha256-7FiLEdgZZgsNXHt81tdP+L6rOA1MqlzGz0SkFWvg10I=";
+    cargoDeps = pkgs.rustPlatform.importCargoLock {
+      lockFile = ./Cargo_0_2.lock;
     };
 
     nativeBuildInputs = [
