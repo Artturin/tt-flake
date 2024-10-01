@@ -4,18 +4,20 @@ with pkgs.python3Packages;
 
 buildPythonPackage rec {
   pname = "tools-common";
-  version = "main-2024-01-31";
+  version = "unstable-2024-09-27";
 
   src = pkgs.fetchFromGitHub {
     owner = "tenstorrent";
     repo = "tt-tools-common";
-    rev = "b23ce52352fdf19bf8cd3e3fcea181aa9d2e7dc9";
-    sha256 = "sha256-+BMYCI0+G4zYTI7uyPp+RLyUkKt1fS1WNltnD3xMk2g=";
+    rev = "a89b2db6d086698ab0351a820ea689b4809429a3";
+    sha256 = "sha256-xeiJQkWsg9p8re2XJai0mNWuP7LwJ9faj3+Z3U/KvzI=";
   };
 
-  patches = [ ./pyproject.patch ];
-
   format = "pyproject";
+
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
+
+  pythonRelaxDeps = [ "distro" "elasticsearch" "psutil" "pyyaml" "rich" "requests" "textual" "tqdm" ];
 
   propagatedBuildInputs = [
     setuptools
@@ -26,6 +28,9 @@ buildPythonPackage rec {
     rich
     textual
     requests
+    jsons
+    tqdm
+    pydantic
   ];
 
   pythonImportsCheck = [
