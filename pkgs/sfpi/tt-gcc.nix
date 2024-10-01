@@ -10,8 +10,8 @@ pkgs.stdenv.mkDerivation rec {
     rev = "94a51a7";
     # this takes a while and we don't need all of them
     fetchSubmodules = true;
-    leaveDotGit = true;
-    hash = "sha256-VliX4Npw8FqTq3vmdsDFRThXFfDgaTomJ+egCEyhOyU=";
+    leaveDotGit = false;
+    hash = "sha256-+bD4GzQ1bSTDOm4Vqxr70uF6yWuIU1ZgZvuRLQO4Or0=";
   };
 
   nativeBuildInputs = with pkgs; [
@@ -45,13 +45,14 @@ pkgs.stdenv.mkDerivation rec {
     "--prefix=${placeholder "out"}"
   ];
 
+  postPatch = ''
+    substituteInPlace Makefile.in \
+      --replace-fail 'flock `git' 'true'
+  '';
+
   hardeningDisable = [
     "format"
   ];
 
   enableParallelBuilding = true;
-
-  # this is an absolute travesty, but i'm not about to
-  # properly repackage all of riscv-gnu-toolchain
-  __noChroot = true;
 }
