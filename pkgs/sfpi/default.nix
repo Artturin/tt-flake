@@ -3,13 +3,14 @@
 rec {
   sfpi = pkgs.stdenv.mkDerivation {
     pname = "sfpi";
-    version = "master-01-30-24";
+    version = "unstable-2024-08-27";
 
     src = pkgs.fetchFromGitHub {
       owner = "tenstorrent-metal";
       repo = "sfpi";
-      rev = "aa4e71d";
-      hash = "sha256-JWSEDx7CCAfuhEhrmcrZunEwWdrsXl71pLJA4Fqme0s=";
+      # One commit before they started to use gcc 12
+      rev = "0bc7ecf45c6fe374371cf5a3b384df1eaf7ad5b7";
+      hash = "sha256-DHyD8eR0yYWHhnEtrMoax/Eoi/N4GhIUn4q0hwzQoR0=";
     };
 
     postPatch = ''
