@@ -26,7 +26,15 @@ buildPythonPackage rec {
 
   nativeBuildInputs = [ pythonRelaxDepsHook ];
 
-  pythonRelaxDeps = [ "black" "distro" "elasticsearch" "rich" "textual" "pre-commit" "importlib-resources" ];
+  pythonRelaxDeps = [
+    "black"
+    "distro"
+    "elasticsearch"
+    "rich"
+    "textual"
+    "pre-commit"
+    "importlib-resources"
+  ];
 
   propagatedBuildInputs = [
     setuptools
