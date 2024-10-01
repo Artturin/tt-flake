@@ -43,8 +43,6 @@ in
 
     inherit src version;
 
-    patches = [ ./missing_header.patch ];
-
     nativeBuildInputs = [ pkgs.gnumake ];
 
     buildPhase = ''
