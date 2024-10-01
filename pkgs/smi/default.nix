@@ -1,4 +1,8 @@
-{ pkgs, pyluwen, tools-common }:
+{
+  pkgs,
+  pyluwen,
+  tools-common,
+}:
 
 with pkgs.python3Packages;
 
@@ -15,7 +19,25 @@ buildPythonPackage rec {
 
   format = "pyproject";
 
-  patches = [ ./pyproject.patch ./log.patch ];
+  patches = [
+    ./pyproject.patch
+    ./log.patch
+  ];
 
-  propagatedBuildInputs = [ setuptools requests textual black distro elasticsearch jsons pydantic psutil pyyaml pyluwen importlib-resources pkgs.pre-commit tools-common ];
+  propagatedBuildInputs = [
+    setuptools
+    requests
+    textual
+    black
+    distro
+    elasticsearch
+    jsons
+    pydantic
+    psutil
+    pyyaml
+    pyluwen
+    importlib-resources
+    pkgs.pre-commit
+    tools-common
+  ];
 }

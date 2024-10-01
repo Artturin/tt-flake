@@ -14,10 +14,19 @@ buildPythonPackage rec {
   };
 
   patches = [ ./pyproject.patch ];
-  
+
   format = "pyproject";
 
-  propagatedBuildInputs = [ setuptools distro elasticsearch psutil pyyaml rich textual requests ];
+  propagatedBuildInputs = [
+    setuptools
+    distro
+    elasticsearch
+    psutil
+    pyyaml
+    rich
+    textual
+    requests
+  ];
 
   pythonImportsCheck = [
     "tt_tools_common"

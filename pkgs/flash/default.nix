@@ -17,5 +17,10 @@ buildPythonPackage rec {
 
   # patches = [ ./pyproject.patch ./log.patch ];
 
-  propagatedBuildInputs = [ setuptools pyyaml pyluwen tabulate ]; #requests textual black distro elasticsearch jsons pydantic psutil pyyaml pyluwen importlib-resources pkgs.pre-commit tools-common ];
+  propagatedBuildInputs = [
+    setuptools
+    pyyaml
+    pyluwen
+    tabulate
+  ]; # requests textual black distro elasticsearch jsons pydantic psutil pyyaml pyluwen importlib-resources pkgs.pre-commit tools-common ];
 }

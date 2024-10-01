@@ -11,14 +11,22 @@ pkgs.stdenv.mkDerivation {
     hash = "sha256-jMxhhFWnCjNZZvFiTCeuEHvxvE0+IoaP4NJkr/CDLy8=";
   };
 
-  patches = [ ./fmt_mystery.patch ./missing_headers.patch ];
+  patches = [
+    ./fmt_mystery.patch
+    ./missing_headers.patch
+  ];
 
   makeFlags = [
     "DEVICE_CXX=${pkgs.stdenv.cc.targetPrefix}c++"
     "ARCH_NAME=grayskull"
   ];
 
-  buildInputs = with pkgs; [ libyamlcpp boost fmt hwloc ];
+  buildInputs = with pkgs; [
+    libyamlcpp
+    boost
+    fmt
+    hwloc
+  ];
 
   installPhase = ''
     mkdir $out
