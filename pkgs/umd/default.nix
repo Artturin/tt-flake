@@ -48,6 +48,7 @@ let
 
   });
 
+  # NOTE: When changing something remember to make sure the outputHash above doesn't change, or if it changes then update it.
   tt-umd = pkgs.stdenv.mkDerivation {
     pname = "tt-umd";
     inherit version src;
