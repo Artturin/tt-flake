@@ -24,10 +24,12 @@
           self:
           let
             inherit (self) callPackage;
+            # so `kmd.kmd` gets its own `.override`
+            callPackages = lib.callPackagesWith (pkgs // self);
           in
           {
             kernel = pkgs.linux_latest;
-            kmd = callPackage ./pkgs/kmd { };
+            kmd = callPackages ./pkgs/kmd { };
             sfpi = callPackage ./pkgs/sfpi { };
             luwen = callPackage ./pkgs/luwen { };
             tools-common = callPackage ./pkgs/tools-common { };
