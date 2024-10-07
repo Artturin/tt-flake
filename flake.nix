@@ -30,7 +30,7 @@
           {
             kernel = pkgs.linux_latest;
             kmd = callPackages ./pkgs/kmd { };
-            sfpi = callPackage ./pkgs/sfpi { };
+            sfpi = callPackages ./pkgs/sfpi { };
             luwen = callPackage ./pkgs/luwen { };
             tools-common = callPackage ./pkgs/tools-common { };
             flash = callPackage ./pkgs/flash {
@@ -40,6 +40,7 @@
               pyluwen = self.luwen.pyluwen;
             };
             umd = callPackage ./pkgs/umd { };
+            metal = callPackage ./pkgs/metal { };
 
           }
         );
@@ -57,6 +58,7 @@
           tools-common = scope.tools-common;
           flash = scope.flash;
           umd = scope.umd;
+          metal = scope.metal;
           default = self.packages.${system}.smi;
         };
 
