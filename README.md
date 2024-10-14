@@ -6,7 +6,7 @@ Add this flake to your configuration flake's inputs and pin its `nixpkgs` to you
 
 ```
 tt-flake = {
-  url = "git+https://git.ziguana.dev/ziguana/tt-flake";
+  url = "github:Artturin/tt-flake";
   inputs.nixpkgs.follows = "nixpkgs";
 };
 ```
@@ -35,7 +35,7 @@ hostname = nixpkgs.lib.nixosSystem {
 Reboot and run the tests. Some of the tests may require root.
 
 ```
-nix run git+https://git.ziguana.dev/ziguana/tt-flake#kmd-test 
+nix run github:Artturin/tt-flake#kmd-test
 ```
 
 You should see testing output on stdout, and some errors (with a possible stack trace) in dmesg.
