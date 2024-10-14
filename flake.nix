@@ -26,10 +26,10 @@
             inherit (self) callPackage;
             # so `kmd.kmd` gets its own `.override`
             callPackages = lib.callPackagesWith (pkgs // self);
+            kernel = pkgs.linux_latest;
           in
           {
-            kernel = pkgs.linux_latest;
-            kmd = callPackages ./pkgs/kmd { };
+            kmd = callPackages ./pkgs/kmd { inherit kernel; };
             sfpi = callPackages ./pkgs/sfpi { };
             luwen = callPackage ./pkgs/luwen { };
             tools-common = callPackage ./pkgs/tools-common { };
