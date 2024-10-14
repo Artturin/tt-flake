@@ -38,6 +38,8 @@ Reboot and run the tests. Some of the tests may require root.
 nix run github:Artturin/tt-flake#kmd-test
 ```
 
+If you get `AER is disabled.` add `--skip-aer`.
+
 You should see testing output on stdout, and some errors (with a possible stack trace) in dmesg.
 
 `stdout`:
