@@ -33,6 +33,7 @@
             sfpi = callPackages ./pkgs/sfpi { };
             luwen = callPackage ./pkgs/luwen { };
             tools-common = callPackage ./pkgs/tools-common { };
+            system-tools = callPackage ./pkgs/system-tools { };
             flash = callPackage ./pkgs/flash {
               pyluwen = self.luwen.pyluwen_0_1;
             };
@@ -56,6 +57,7 @@
           luwen = scope.luwen.luwen;
           pyluwen = scope.luwen.pyluwen;
           tools-common = scope.tools-common;
+          system-tools = scope.system-tools;
           flash = scope.flash;
           umd = scope.umd;
           metal = scope.metal;
