@@ -80,5 +80,31 @@
 
         formatter = pkgs.nixfmt-rfc-style;
       }
-    );
+    )
+    // {
+      # TODO: Add overlay
+      nixosModules = {
+        tt-module =
+          { config, pkgs, ... }:
+          {
+            boot = {
+              extraModulePackages = [
+                ((pkgs.tt-kmd or self.packages.${pkgs.hostPlatform.system}.kmd).override {
+                  kernel = config.boot.kernelPackages.kernel;
+                })
+              ];
+              kernelParams = [
+                "hugepagesz=1G"
+                "hugepages=2"
+                "iommu=pt"
+              ];
+              kernelModules = [ "tenstorrent" ];
+            };
+            services.udev.packages = [
+              (pkgs.tt-udev-rules or self.packages.${pkgs.hostPlatform.system}.udev-rules)
+            ];
+
+          };
+      };
+    };
 }
