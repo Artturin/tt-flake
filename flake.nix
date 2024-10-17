@@ -42,6 +42,10 @@
             };
             umd = callPackage ./pkgs/umd { };
             metal = callPackage ./pkgs/metal { };
+            buda-docker = callPackage ./pkgs/buda-docker { };
+            # Will be difficult to get these 2 working and keep them working
+            buda-prebuilt = callPackage ./pkgs/buda-prebuilt { };
+            buda = callPackage ./pkgs/buda { };
 
           }
         );
@@ -61,6 +65,9 @@
           flash = scope.flash;
           umd = scope.umd;
           metal = scope.metal;
+          buda-docker = scope.buda-docker;
+          buda-prebuilt = scope.buda-prebuilt;
+          buda = scope.buda;
           default = self.packages.${system}.smi;
         };
 
