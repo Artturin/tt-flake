@@ -51,6 +51,8 @@ let
       runHook postInstall
     '';
 
+    postInstall = "";
+
   });
   # NOTE: When changing something remember to make sure the outputHash above doesn't change, or if it changes then update it.
   metal = llvmPackages.libcxxStdenv.mkDerivation {
@@ -104,10 +106,11 @@ let
 
     cmakeFlags = [
       "-DCPM_SOURCE_CACHE=${depsDir}"
+       # TODO: look in to fixing properly if there's a need.
+       "-DCMAKE_SKIP_BUILD_RPATH=ON"
     ];
 
     postInstall = ''
-      pwd
       mkdir -p $out/lib
       cp lib/{_ttnn.so,libtt_metal.so} $out/lib
     '';
