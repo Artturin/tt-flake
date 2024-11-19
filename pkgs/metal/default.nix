@@ -12,7 +12,8 @@
   sfpi,
   hwloc,
   libz,
-
+  runCommand,
+  libexecinfo,
 }:
 
 let
@@ -52,7 +53,6 @@ let
     '';
 
     postInstall = "";
-
   });
   # NOTE: When changing something remember to make sure the outputHash above doesn't change, or if it changes then update it.
   metal = llvmPackages.libcxxStdenv.mkDerivation {
@@ -80,11 +80,9 @@ let
 
     buildInputs = [
       numactl
-
       # umd
       hwloc
       libz
-
     ];
 
     postUnpack = ''
@@ -98,25 +96,54 @@ let
       ln -s ${sfpi.tt-gcc} tt_metal/third_party/sfpi/compiler
     '';
 
+    ARCH_NAME = "wormhole_b0";
+
     preConfigure = ''
-      export ARCH_NAME=wormhole_b0
       export TT_METAL_HOME=$(pwd)
       export PYTHONPATH=$(pwd)
     '';
 
     cmakeFlags = [
       "-DCPM_SOURCE_CACHE=${depsDir}"
-       # TODO: look in to fixing properly if there's a need.
-       "-DCMAKE_SKIP_BUILD_RPATH=ON"
     ];
 
     postInstall = ''
-      mkdir -p $out/lib
-      cp lib/{_ttnn.so,libtt_metal.so} $out/lib
+      mkdir -p $out/{lib,include}
+      cp -r ../tt_metal $out/include
+      cp -r lib $out/lib
+      cp -r deps $out/deps
+      cp ./deps/reflect/*/reflect $out/include/
+      for f in $(find "$out" -type f -name '*.so*'); do
+        sed -i "s|/build/source/build/lib|$out/lib|g" $f
+        sed -i "s|/build/source/tt_metal|$out/include/tt_metal|g" $f
+        sed -i 's|$ORIGIN/build/lib:||g' $f
+      done
+
     '';
 
     passthru = {
       inherit metal-deps;
+      tests = {
+        include = runCommand "test" { buildInputs = [ metal]; } ''
+          mkdir -p $out
+          # In the tests the paths in the includes are weird and don't use the full `tt_metal/something` paths
+          ${sfpi.sfpi}/compiler/bin/riscv32-unknown-elf-c++ \
+          -std=c++20 \
+          -mwormhole \
+          -I ${libexecinfo}/include \
+          -I ${metal}/include \
+          -I ${metal}/include/tt_metal \
+          -I ${metal}/include/tt_metal/impl \
+          -I ${metal}/include/tt_metal/hw/inc/wormhole \
+          -I ${metal}/include/tt_metal/hw/inc \
+          -I ${metal}/include/tt_metal/third_party/umd/src/firmware/riscv/wormhole \
+          -I ${metal}/include/tt_metal/hw/inc/wormhole/wormhole_b0_defines \
+          -I ${metal}/include/tt_metal/third_party/umd \
+          -I ${metal}/include/tt_metal/third_party/fmt \
+          -o add2 ${metal.src}/tt_metal/programming_examples/add_2_integers_in_compute/add_2_integers_in_compute.cpp
+          mv add2 $out
+        '';
+      };
     };
 
   };
