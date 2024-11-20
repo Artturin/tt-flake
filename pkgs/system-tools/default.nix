@@ -4,7 +4,9 @@
   fetchFromGitHub,
   makeWrapper,
   bash,
+  coreutils,
   pciutils,
+  gawk,
 }:
 
 # NOTE: We might not use these files if we end up doing the things it does in nix instead if possible.
@@ -44,7 +46,9 @@ stdenv.mkDerivation rec {
     wrapProgram "$out/libexec/hugepages-setup.sh" \
       --prefix PATH : ${
         lib.makeBinPath [
-          pciutils # for lspci
+          coreutils
+          pciutils
+          gawk
         ]
       }
   '';
