@@ -98,9 +98,13 @@
               ];
               kernelModules = [ "tenstorrent" ];
             };
-            systemd.packages = [
-              (pkgs.tt-system-tools or self.packages.${pkgs.hostPlatform.system}.system-tools)
-            ];
+            systemd = {
+              # https://github.com/NixOS/nixpkgs/issues/81138
+              services.tenstorrent-hugepages.wantedBy = [ "sysinit.target" ];
+              packages = [
+                (pkgs.tt-system-tools or self.packages.${pkgs.hostPlatform.system}.system-tools)
+              ];
+            };
             services.udev.packages = [
               (pkgs.tt-udev-rules or self.packages.${pkgs.hostPlatform.system}.udev-rules)
             ];
