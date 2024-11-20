@@ -8,10 +8,10 @@ pkgs.stdenv.mkDerivation rec {
     owner = "tenstorrent-metal";
     repo = "sfpi-tt-gcc";
     # https://github.com/tenstorrent/sfpi-tt-gcc/commits/tt-rel/gcc-12.2
-    rev = "a5c31334942e9df66427837f7268269311fdfc2e";
+    rev = "fad3c23c8972adb739ef62d2f35d770062a7cd73";
     # this takes a while and we don't need all of them
     fetchSubmodules = true;
-    hash = "sha256-1d77+6Yv3i4M7J+vUwcUuFg56wCG9oVeDt+fvBKtHPI=";
+    hash = "sha256-X2uVyk4uo0TuDu/2nUXk2v8A4RURvhg0MAoCssAuljI=";
   };
 
   nativeBuildInputs = with pkgs; [

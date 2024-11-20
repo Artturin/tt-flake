@@ -14,6 +14,7 @@
   libz,
   runCommand,
   libexecinfo,
+  callPackage,
 }:
 
 let
@@ -27,7 +28,7 @@ let
 
     dontBuild = true;
 
-    outputHash = "sha256-UOBBqIP2KKEn2pfv7l5v2Of9RoZY0+3TCEu94MQUVYo=";
+    outputHash = "sha256-hhLjEssXID+uiPQ3kexMCOVB6DB9m/eAVmfr2OleGXc=";
     outputHashAlgo = "sha256";
 
     cmakeFlags = [
@@ -54,6 +55,7 @@ let
 
     postInstall = "";
   });
+
   # NOTE: When changing something remember to make sure the outputHash above doesn't change, or if it changes then update it.
   metal = llvmPackages.libcxxStdenv.mkDerivation {
     pname = "tt-metal";
@@ -61,11 +63,15 @@ let
     src = fetchFromGitHub {
       owner = "tenstorrent";
       repo = "tt-metal";
-      rev = "0fb4249a94a99714de8f91d93d338832694c09e0";
-      # this takes a while and we don't need all of them
+      rev = "697ccc724048108e9f11a3c9ed5171a17ac9fd9c";
+      hash = "sha256-pBfJAtSyRKtU3iG2P3hVuo2LXHBFOU+3XmRkbDuDvDQ=";
       fetchSubmodules = true;
-      hash = "sha256-0tcIwaJzM75S7SFKCJ2UbfElwASpFwdySmzt2LUTT4A=";
+      fetchLFS = true;
     };
+
+    patches = [
+      ./rpath.patch
+    ];
 
     env.NIX_CFLAGS_COMPILE = "-Wno-unused-command-line-argument";
 
@@ -92,8 +98,15 @@ let
 
     postPatch = ''
       cp ${cpm-cmake}/share/cpm/CPM.cmake cmake/CPM.cmake
-      rm -rf tt_metal/third_party/sfpi/compiler
-      ln -s ${sfpi.tt-gcc} tt_metal/third_party/sfpi/compiler
+
+      substituteInPlace tt_metal/CMakeLists.txt ttnn/CMakeLists.txt \
+        --replace-fail "REPLACETHIS\"" "$out/lib\"" \
+        --replace-warn "REPLACETHIS1" "$out/build/lib"
+
+      substituteInPlace tt_metal/hw/CMakeLists.txt \
+        --replace-fail "FetchContent_MakeAvailable(sfpi)" ""
+      mkdir -p runtime
+      ln -s ${sfpi.sfpi} runtime/sfpi
     '';
 
     ARCH_NAME = "wormhole_b0";
@@ -108,41 +121,26 @@ let
     ];
 
     postInstall = ''
-      mkdir -p $out/{lib,include}
-      cp -r ../tt_metal $out/include
-      cp -r lib $out/lib
-      cp -r deps $out/deps
-      cp ./deps/reflect/*/reflect $out/include/
-      for f in $(find "$out" -type f -name '*.so*'); do
-        sed -i "s|/build/source/build/lib|$out/lib|g" $f
-        sed -i "s|/build/source/tt_metal|$out/include/tt_metal|g" $f
-        sed -i 's|$ORIGIN/build/lib:||g' $f
-      done
+      # Have to do this until cpp-ttnn-project-template is fixed
+      # ttnn-template> ninja: error: '/nix/store/-tt-metal-unstable-2024-10-04/build/lib/_ttnn.so', needed by 'sources/examples/sample_app/sample_app', missing and no known rule to make it
+      cp -r ../ $out
+      rm -rf $out/.cpmcache
+      ln -s $out/build/deps $out/.cpmcache
 
+      # Nix checks for references to /build/source so these should be different but not a different size to prevent corruption
+      find "$out" -type f -print0 | while IFS= read -r -d $'\0' f; do
+        sed -i "s|/build/source|/suild/source|g" "$f"
+        sed -i 's|$ORIGIN/build/lib:|$ORIGIN/suild/lib:|g' "$f"
+      done
     '';
+
+    dontPatchELF = true;
+    dontStrip = true;
 
     passthru = {
       inherit metal-deps;
       tests = {
-        include = runCommand "test" { buildInputs = [ metal]; } ''
-          mkdir -p $out
-          # In the tests the paths in the includes are weird and don't use the full `tt_metal/something` paths
-          ${sfpi.sfpi}/compiler/bin/riscv32-unknown-elf-c++ \
-          -std=c++20 \
-          -mwormhole \
-          -I ${libexecinfo}/include \
-          -I ${metal}/include \
-          -I ${metal}/include/tt_metal \
-          -I ${metal}/include/tt_metal/impl \
-          -I ${metal}/include/tt_metal/hw/inc/wormhole \
-          -I ${metal}/include/tt_metal/hw/inc \
-          -I ${metal}/include/tt_metal/third_party/umd/src/firmware/riscv/wormhole \
-          -I ${metal}/include/tt_metal/hw/inc/wormhole/wormhole_b0_defines \
-          -I ${metal}/include/tt_metal/third_party/umd \
-          -I ${metal}/include/tt_metal/third_party/fmt \
-          -o add2 ${metal.src}/tt_metal/programming_examples/add_2_integers_in_compute/add_2_integers_in_compute.cpp
-          mv add2 $out
-        '';
+        template = callPackage ./ttnn-template.nix { inherit metal; };
       };
     };
 

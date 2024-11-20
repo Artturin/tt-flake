@@ -1,0 +1,28 @@
+diff --git a/tt_metal/CMakeLists.txt b/tt_metal/CMakeLists.txt
+index cba3743fbc..e580f6696c 100644
+--- a/tt_metal/CMakeLists.txt
++++ b/tt_metal/CMakeLists.txt
+@@ -55,7 +55,7 @@ set_target_properties(
+     tt_metal
+     PROPERTIES
+         INSTALL_RPATH
+-            "${PROJECT_BINARY_DIR}/lib"
++            "REPLACETHIS"
+         ADDITIONAL_CLEAN_FILES
+             "${PROJECT_BINARY_DIR}/lib;${PROJECT_BINARY_DIR}/obj"
+ )
+diff --git a/ttnn/CMakeLists.txt b/ttnn/CMakeLists.txt
+index 45ee3dd8f8..4401f51b39 100644
+--- a/ttnn/CMakeLists.txt
++++ b/ttnn/CMakeLists.txt
+@@ -683,8 +683,8 @@ TT_ENABLE_UNITY_BUILD(ttnn)
+ #We move the library binaries to a different path rather than PROJECT_BINARY_DIR
+ #in the Python wheel
+ set(TTNN_INSTALL_RPATH
+-    "${PROJECT_BINARY_DIR}/lib"
+-    "$ORIGIN/build/lib"
++    "REPLACETHIS"
++    "REPLACETHIS1"
+ )
+
+ #Make sure library built is _ttnn.so and that it can find all it's linked libraries
