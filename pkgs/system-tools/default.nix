@@ -43,14 +43,17 @@ stdenv.mkDerivation rec {
     substituteInPlace "$out/lib/systemd/system/tenstorrent-hugepages.service" \
       --replace-fail "/opt/tenstorrent/bin/hugepages-setup.sh" "$out/libexec/hugepages-setup.sh"
 
-    wrapProgram "$out/libexec/hugepages-setup.sh" \
+    mv "$out/libexec/hugepages-setup.sh" "$out/libexec/.hugepages-setup.sh-wrapped"
+    makeWrapper ${bash}/bin/bash "$out/libexec/hugepages-setup.sh" \
       --prefix PATH : ${
         lib.makeBinPath [
           coreutils
           pciutils
           gawk
         ]
-      }
+      } \
+      --add-flags "-x $out/libexec/.hugepages-setup.sh-wrapped"
+      # add -x easier debugging
   '';
 
   meta = {
