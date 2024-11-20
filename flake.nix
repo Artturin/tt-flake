@@ -105,9 +105,13 @@
                 (pkgs.tt-system-tools or self.packages.${pkgs.hostPlatform.system}.system-tools)
               ];
             };
-            services.udev.packages = [
-              (pkgs.tt-udev-rules or self.packages.${pkgs.hostPlatform.system}.udev-rules)
-            ];
+            users.groups.tenstorrent = { };
+            services.udev = {
+              #packages = [ (pkgs.tt-udev-rules or self.packages.${pkgs.hostPlatform.system}.udev-rules) ];
+              extraRules = ''
+                KERNEL=="tenstorrent*", MODE="0666", OWNER="root", GROUP="tenstorrent"
+              '';
+            };
 
           };
       };
