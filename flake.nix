@@ -94,14 +94,13 @@
                 })
               ];
               kernelParams = [
-                # TODO: Use the scripts instead https://github.com/tenstorrent/tt-system-tools they work regardless of how many devices there are
-                # https://github.com/tenstorrent/tt-system-tools/blob/main/hugepages-setup.sh#L31
-                "hugepagesz=1G"
-                "hugepages=4"
                 "iommu=pt"
               ];
               kernelModules = [ "tenstorrent" ];
             };
+            systemd.packages = [
+              (pkgs.tt-system-tools or self.packages.${pkgs.hostPlatform.system}.system-tools)
+            ];
             services.udev.packages = [
               (pkgs.tt-udev-rules or self.packages.${pkgs.hostPlatform.system}.udev-rules)
             ];
