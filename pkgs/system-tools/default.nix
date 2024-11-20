@@ -33,7 +33,8 @@ stdenv.mkDerivation rec {
     runHook preInstall
 
     install -Dm444 -t $out/lib/systemd/system/ "tenstorrent-hugepages.service"
-    install -Dm444 -t $out/lib/systemd/system/ 'dev-hugepages\x2d1G.mount'
+    # Defined in the module
+    #install -Dm444 -t $out/lib/systemd/system/ 'dev-hugepages\x2d1G.mount'
     install -Dm555 -t $out/libexec/ "hugepages-setup.sh"
 
     runHook postInstall

@@ -101,6 +101,25 @@
             systemd = {
               # https://github.com/NixOS/nixpkgs/issues/81138
               services.tenstorrent-hugepages.wantedBy = [ "sysinit.target" ];
+              # Define https://github.com/tenstorrent/tt-system-tools/blob/29ba4dc6049eef3cee4314c53720417823ffc667/dev-hugepages%5Cx2d1G.mount
+              # because it has bad start ordering relations with tenstorrent-hugepages.service
+              # or it may be that the `wantedBy` does not work correctly in mounts like it does't work in serices.
+              mounts = [
+                {
+                  description = "Mount hugepages at /dev/hugepages-1G for Tenstorrent ASICs";
+                  what = "hugetlbfs";
+                  where = "/dev/hugepages-1G";
+                  type = "hugetlbfs";
+                  options = "pagesize=1G,mode=0777,nosuid,nodev";
+                  wantedBy = [ "sysinit.target" ];
+                  after = [ "tenstorrent-hugepages.service" ];
+                  unitConfig = {
+                    DefaultDependencies = false;
+                    ConditionPathExists = "/sys/kernel/mm/hugepages/hugepages-1048576kB";
+                    ConditionCapability = "CAP_SYS_ADMIN";
+                  };
+                }
+              ];
               packages = [
                 (pkgs.tt-system-tools or self.packages.${pkgs.hostPlatform.system}.system-tools)
               ];
