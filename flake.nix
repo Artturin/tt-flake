@@ -105,13 +105,15 @@
                 (pkgs.tt-system-tools or self.packages.${pkgs.hostPlatform.system}.system-tools)
               ];
             };
-            users.groups.tenstorrent = { };
             services.udev = {
-              #packages = [ (pkgs.tt-udev-rules or self.packages.${pkgs.hostPlatform.system}.udev-rules) ];
-              extraRules = ''
-                KERNEL=="tenstorrent*", MODE="0666", OWNER="root", GROUP="tenstorrent"
-              '';
+              packages = [ (pkgs.tt-udev-rules or self.packages.${pkgs.hostPlatform.system}.udev-rules) ];
+              # NOTE: passing just the group does not work currently for docker so unneeded for now so use the udev-rules package for now
+              # TT_METAL_HOME=$PWD docker run -v $PWD:/host --workdir /host -v /dev/hugepages-1G:/dev/hugepages-1G -v /dev/tenstorrent:/dev/tenstorrent -u :994 -v /etc/group:/etc/group:ro -it tt-metal bash
+              # extraRules = ''
+              #   KERNEL=="tenstorrent*", MODE="0666", OWNER="root", GROUP="tenstorrent"
+              # '';
             };
+            # users.groups.tenstorrent = { };
 
           };
       };
