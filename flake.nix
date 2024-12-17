@@ -52,6 +52,7 @@
           udev-rules = scope.kmd.udev-rules;
           kmd-test = scope.kmd.test;
           sfpi = scope.sfpi.sfpi;
+          sfpi-prebuilt = scope.sfpi.prebuilt;
           tt-gcc = scope.sfpi.tt-gcc;
           smi = scope.smi;
           luwen = scope.luwen.luwen;

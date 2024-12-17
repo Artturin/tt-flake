@@ -27,5 +27,32 @@ rec {
     '';
   };
 
+  prebuilt = pkgs.stdenv.mkDerivation rec {
+    pname = "tt-gcc";
+    version = "5.0.0";
+
+    src = pkgs.fetchzip {
+      url = "https://github.com/tenstorrent/sfpi/releases/download/v5.0.0/sfpi-release.tgz";
+      hash = "sha256-RBhJ6BWmvB06zWoELTumpzroHDMpNXU0/WC6elgAkW0=";
+    };
+
+    nativeBuildInputs = with pkgs; [
+      autoPatchelfHook
+    ];
+
+    buildInputs = with pkgs; [
+      libmpc
+      mpfr
+      gmp
+      zlib
+      expat
+    ];
+
+    installPhase = ''
+      cp -r . $out
+    '';
+
+  };
+
   tt-gcc = import ./tt-gcc.nix { inherit pkgs; };
 }

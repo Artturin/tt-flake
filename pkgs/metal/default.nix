@@ -21,7 +21,7 @@ let
   llvmPackages = llvmPackages_17;
   depsDir = "deps";
 
-  version = "unstable-2024-10-04";
+  version = "0.53.0";
 
   metal-deps = metal.overrideAttrs (previousAttrs: {
     name = "tt-metal-deps-${version}.tar.gz";
@@ -63,8 +63,8 @@ let
     src = fetchFromGitHub {
       owner = "tenstorrent";
       repo = "tt-metal";
-      rev = "697ccc724048108e9f11a3c9ed5171a17ac9fd9c";
-      hash = "sha256-pBfJAtSyRKtU3iG2P3hVuo2LXHBFOU+3XmRkbDuDvDQ=";
+      rev = "154e6993aed78213446c59731e41c3617d83c1f1";
+      hash = "sha256-edtlE4CVsTO4BW0PKhkN0IxdV666Tu/Y1jgZ2Exljeo=";
       fetchSubmodules = true;
       fetchLFS = true;
     };
@@ -106,7 +106,7 @@ let
       substituteInPlace tt_metal/hw/CMakeLists.txt \
         --replace-fail "FetchContent_MakeAvailable(sfpi)" ""
       mkdir -p runtime
-      ln -s ${sfpi.sfpi} runtime/sfpi
+      ln -s ${sfpi.prebuilt} runtime/sfpi
     '';
 
     ARCH_NAME = "wormhole_b0";
