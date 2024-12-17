@@ -103,6 +103,14 @@ let
         --replace-fail '$ENV{TT_METAL_HOME}/build/lib' '${metal}/lib ${metal}/build/lib'
     '';
 
+    # No default install target
+    installPhase = ''
+      runHook preInstall
+      pwd
+      install -D sources/examples/sample_app/sample_app $out/bin/sample_app
+      runHook postInstall
+    '';
+
     cmakeFlags = [
       "-DCPM_SOURCE_CACHE=${depsDir}"
     ];
