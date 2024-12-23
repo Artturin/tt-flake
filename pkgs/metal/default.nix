@@ -118,6 +118,7 @@ let
 
     cmakeFlags = [
       "-DCPM_SOURCE_CACHE=${depsDir}"
+      "-DBUILD_PROGRAMMING_EXAMPLES=TRUE"
     ];
 
     postInstall = ''
@@ -132,6 +133,11 @@ let
         sed -i "s|/build/source|/suild/source|g" "$f"
         sed -i 's|$ORIGIN/build/lib:|$ORIGIN/suild/lib:|g' "$f"
       done
+
+      # Using tt-metal tries to write to <storepath>/built
+      # Create the built dir so a writable dir can be bind mounted to it
+      mkdir $out/built
+      mkdir $out/generated
     '';
 
     dontPatchELF = true;
