@@ -52,4 +52,6 @@ buildPythonPackage rec {
     pkgs.pre-commit
     tools-common
   ];
+
+  dontUsePytestCheck = true; # no tests
 }
