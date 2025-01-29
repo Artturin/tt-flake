@@ -4,13 +4,14 @@ with pkgs.python3Packages;
 
 buildPythonPackage rec {
   pname = "tools-common";
-  version = "1.4.12";
+  # https://github.com/tenstorrent/tt-smi/blob/main/pyproject.toml#L31
+  version = "1.4.11";
 
   src = pkgs.fetchFromGitHub {
     owner = "tenstorrent";
     repo = "tt-tools-common";
     rev = "refs/tags/v${version}";
-    sha256 = "sha256-FKV1ojY9m5aRfnrU6LjXVcUnNAmNNXiGaUax6RE/8Vs=";
+    sha256 = "sha256-Q5GpT6B3pamY6bUjPbvNJ11npiR4q/6QMjRxovQ/MZ0=";
   };
 
   format = "pyproject";

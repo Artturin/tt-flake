@@ -4,6 +4,8 @@ let
 
   # Upstream does not vendor a lock file so one has to created manually
   # `cargo generate-lockfile`
+  # Use verson needed by tt-smi
+  # https://github.com/tenstorrent/tt-smi/blob/main/pyproject.toml#L30
   version = "0.4.9";
 
   src = pkgs.fetchFromGitHub {
