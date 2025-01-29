@@ -1,13 +1,28 @@
-{ pkgs }:
+{ fetchFromGitHub, python3Packages }:
 
-with pkgs.python3Packages;
+let
+  # Can be unpinned once https://github.com/tenstorrent/tt-tools-common/blob/main/pyproject.toml#L32
+  # is v1
+  textual_0_82 = python3Packages.textual.overridePythonAttrs (old: rec {
+    version = "0.82.0";
+    src = fetchFromGitHub {
+      owner = "Textualize";
+      repo = "textual";
+      rev = "refs/tags/v${version}";
+      hash = "sha256-belpoXQ+CkTchK+FjI/Ur8v4cNgzX39xLdNfPCwaU6E=";
+    };
+    disabledTests = old.disabledTests ++ [
+      "test_selection"
+    ];
+  });
+in
 
-buildPythonPackage rec {
+python3Packages.buildPythonPackage rec {
   pname = "tools-common";
   # https://github.com/tenstorrent/tt-smi/blob/main/pyproject.toml#L31
   version = "1.4.11";
 
-  src = pkgs.fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "tenstorrent";
     repo = "tt-tools-common";
     rev = "refs/tags/v${version}";
@@ -16,7 +31,7 @@ buildPythonPackage rec {
 
   format = "pyproject";
 
-  nativeBuildInputs = [ pythonRelaxDepsHook ];
+  nativeBuildInputs = with python3Packages; [ pythonRelaxDepsHook ];
 
   pythonRelaxDeps = [
     "distro"
@@ -29,14 +44,14 @@ buildPythonPackage rec {
     "tqdm"
   ];
 
-  propagatedBuildInputs = [
+  propagatedBuildInputs = with python3Packages; [
     setuptools
     distro
     elasticsearch
     psutil
     pyyaml
     rich
-    textual
+    textual_0_82
     requests
     jsons
     tqdm
@@ -46,4 +61,8 @@ buildPythonPackage rec {
   pythonImportsCheck = [
     "tt_tools_common"
   ];
+
+  passthru = {
+    textual = textual_0_82;
+  };
 }

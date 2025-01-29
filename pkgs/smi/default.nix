@@ -39,7 +39,6 @@ buildPythonPackage rec {
   propagatedBuildInputs = [
     setuptools
     requests
-    textual
     black
     distro
     elasticsearch
@@ -51,6 +50,7 @@ buildPythonPackage rec {
     importlib-resources
     pkgs.pre-commit
     tools-common
+    tools-common.textual
   ];
 
   dontUsePytestCheck = true; # no tests
