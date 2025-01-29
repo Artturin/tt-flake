@@ -8,13 +8,13 @@ with pkgs.python3Packages;
 
 buildPythonPackage rec {
   pname = "tt-smi";
-  version = "unstable-2024-09-27";
+  version = "3.0.5";
 
   src = pkgs.fetchFromGitHub {
     owner = "tenstorrent";
     repo = "tt-smi";
-    rev = "052f1ce49b94581710744a91939121e01c24b5f2";
-    hash = "sha256-IA60unZpSWVnMnDjDIC31QtURi9nIr/F7s7PGZilPcw=";
+    rev = "refs/tags/v${version}";
+    hash = "sha256-+Dw6F9aupe4VTWQFiNWGKMDOTmxwCW2bHuDQxWxluUc=";
   };
 
   format = "pyproject";

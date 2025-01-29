@@ -1,0 +1,12 @@
+diff --git a/test/query_mappings.cpp b/test/query_mappings.cpp
+index 0721485..7fe7ae4 100644
+--- a/test/query_mappings.cpp
++++ b/test/query_mappings.cpp
+@@ -16,6 +16,7 @@
+ #include <set>
+ #include <string>
+ #include <cstddef>
++#include <limits>
+ #include <cstdint>
+
+ #include <sys/ioctl.h>

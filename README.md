@@ -57,3 +57,8 @@ Testing /dev/tenstorrent/1 @ 0000:76:00.0
 ```
 
 As far as I can tell, these failures are exercised by the tests, and a clean `stdout` means there is no issue.
+
+
+# TODO
+
+- [ ] Better update system

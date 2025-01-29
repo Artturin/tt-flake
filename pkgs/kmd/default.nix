@@ -4,10 +4,10 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "tenstorrent";
     repo = "tt-kmd";
-    rev = "715a5d76e5dbb6d8972d4aa92e8cbe3434986b9f";
-    hash = "sha256-OCnGhvIDIqkQJXlIpOVnP0O9cA9J7/bz1JPAOpeDNYQ=";
+    rev = "refs/tags/ttkmd-${version}";
+    hash = "sha256-TTd+SXUQ/RwsZB7YIc0QsE9zHBCYO3NRrCub7/K1rP4=";
   };
-  version = "unstable-2024-09-06";
+  version = "1.31";
 in
 {
   kmd = pkgs.stdenv.mkDerivation {
@@ -40,6 +40,9 @@ in
 
   test = pkgs.stdenv.mkDerivation {
     pname = "tt-kmd-test";
+
+    # https://github.com/tenstorrent/tt-kmd/pull/37
+    patches = ./limits.patch;
 
     inherit src version;
 
