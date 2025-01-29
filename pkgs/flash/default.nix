@@ -8,13 +8,13 @@ with pkgs.python3Packages;
 
 buildPythonPackage rec {
   pname = "tt-flash";
-  version = "unstable-2024-09-27";
+  version = "3.1.1";
 
   src = pkgs.fetchFromGitHub {
     owner = "tenstorrent";
     repo = "tt-flash";
-    rev = "4002fee1da7edfcbf09093ba23612caeca071f23";
-    hash = "sha256-O6b/vS/zCjp/mrNzFEylWs0jtwdHY65nwkvn5GFridI=";
+    rev = "refs/tags/v${version}";
+    hash = "sha256-t2B1XEOKBKxE2eQiS7pc+EemBWomMgocyk4oRDt0Q78=";
   };
 
   nativeBuildInputs = [ pythonRelaxDepsHook ];

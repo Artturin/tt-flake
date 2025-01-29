@@ -31,15 +31,12 @@
           {
             kmd = callPackages ./pkgs/kmd { inherit kernel; };
             sfpi = callPackages ./pkgs/sfpi { };
-            luwen = callPackage ./pkgs/luwen { };
+            luwen = (callPackage ./pkgs/luwen { }).luwen;
+            pyluwen = (callPackage ./pkgs/luwen { }).pyluwen;
             tools-common = callPackage ./pkgs/tools-common { };
             system-tools = callPackage ./pkgs/system-tools { };
-            flash = callPackage ./pkgs/flash {
-              pyluwen = self.luwen.pyluwen_0_1;
-            };
-            smi = callPackage ./pkgs/smi {
-              pyluwen = self.luwen.pyluwen;
-            };
+            flash = callPackage ./pkgs/flash { };
+            smi = callPackage ./pkgs/smi { };
             umd = callPackage ./pkgs/umd { };
             metal = callPackage ./pkgs/metal { };
 
@@ -55,8 +52,8 @@
           sfpi-prebuilt = scope.sfpi.prebuilt;
           tt-gcc = scope.sfpi.tt-gcc;
           smi = scope.smi;
-          luwen = scope.luwen.luwen;
-          pyluwen = scope.luwen.pyluwen;
+          luwen = scope.luwen;
+          pyluwen = scope.pyluwen;
           tools-common = scope.tools-common;
           system-tools = scope.system-tools;
           flash = scope.flash;
