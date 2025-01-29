@@ -54,4 +54,10 @@ buildPythonPackage rec {
   ];
 
   dontUsePytestCheck = true; # no tests
+
+  installCheckPhase = ''
+    output=$($out/bin/tt-smi || true)
+    echo "tt-smi output: $output"
+    echo $output | grep -q "No Tenstorrent driver detected"
+  '';
 }
